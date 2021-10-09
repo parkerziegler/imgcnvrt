@@ -1,6 +1,16 @@
-# `imgcnvrt`
+# imgcnvrt
 
-`imgcnvrt` is a tiny CLI for doing fast, efficient conversions between image file types. It is based on the lovely [`image`](https://github.com/image-rs/image) library and written in [Rust](https://www.rust-lang.org/).
+`imgcnvrt` is a tiny CLI for doing fast, efficient conversions between image file formats. It is written in [Rust](https://www.rust-lang.org/) and extends functionality from the lovely [`image`](https://github.com/image-rs/image) library.
+
+## Installation
+
+To install `imgcnvrt`, first ensure you have a working installation of Rust and [cargo](https://doc.rust-lang.org/book/ch01-03-hello-cargo.html), Rust's build system and package manager. Follow [the instructions from the Rust book](https://doc.rust-lang.org/book/ch01-01-installation.html).
+
+Next, run:
+
+```sh
+cargo install imgcnvrt
+```
 
 ## Running `imgcnvrt`
 

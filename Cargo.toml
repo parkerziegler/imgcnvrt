@@ -2,8 +2,16 @@
 name = "imgcnvrt"
 version = "0.1.0"
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Parker Ziegler <peziegler@berkeley.edu>"]
+documentation = "https://github.com/parkerziegler/imgcnvrt"
+homepage = "https://github.com/parkerziegler/imgcnvrt"
+repository = "https://github.com/parkerziegler/imgcnvrt"
+description = "A fast, efficient CLI for converting images to different file formats."
+categories = ["command-line-utilities", "multimedia::images"]
+keywords = ["cli", "image", "conversion"]
+exclude = ["tests/*"]
+readme = "README.md"
+license = "MIT"
 
 [dependencies]
 image = "0.23.14"
