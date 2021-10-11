@@ -23,22 +23,10 @@ imgcnvrt path/to/my/image.jpg .png
 `imgcnvrt` takes in two arguments:
 
 1. The path to the source image.
-2. The image type you want to convert to (e.g. `.png`, `.jpeg`, `.webp`, `.avif`)
+2. The image type you want to convert to (e.g. `.png`, `.jpeg`, `.tiff`)
 
 ### Supported File Formats
 
-`imgcnvrt` supports converting from and to all of the file formats handled by its parent library [`image`](https://github.com/image-rs/image#supported-image-formats). This includes:
+`imgcnvrt` supports convertions based on the restrictions of its parent library [`image`](https://github.com/image-rs/image#supported-image-formats). Depending on the format you are decoding (converting from) and encoding (converting to), you may encounter errors. For example, there is no support for encoding WebP formats in `image` yet; therefore, `imgcnvrt` does not support it either. Likewise, if you want to decode a WebP image, it must not contain animation or alpha headers.
 
-- PNG
-- JPEG
-- GIF
-- BMP
-- ICO
-- TIFF
-- WebP
-- AVIF
-- PNM
-- DDS
-- TGA
-- OpenEXR
-- farbfeld
+For a full list of decoding and encoding support, check out `image`'s [supported image formats](https://github.com/image-rs/image#supported-image-formats).
