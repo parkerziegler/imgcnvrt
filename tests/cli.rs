@@ -71,6 +71,7 @@ fn it_errors_if_no_output_extension_specified() -> Result<(), Box<dyn std::error
 
     Ok(())
 }
+
 #[test]
 fn it_errors_on_unsupported_extensions() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("imgcnvrt")?;
@@ -81,4 +82,34 @@ fn it_errors_on_unsupported_extensions() -> Result<(), Box<dyn std::error::Error
         .stderr(predicate::str::contains("Unsupported file extension."));
 
     Ok(())
+}
+
+#[test]
+fn it_decodes_png_and_encodes_supported_image_formats() -> Result<(), Box<dyn std::error::Error>> {
+    let supported_img_formats = vec![".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".pnm", ".ff"];
+
+    let mut failed = false;
+    
+    for img_format in supported_img_formats {
+        let mut cmd = Command::cargo_bin("imgcnvrt")?;
+
+        cmd.arg("tests/fractal.png").arg(img_format);
+        cmd.assert()
+            .success();
+
+        let out_path = format!("tests/fractal{}", &img_format);
+        let path = Path::new(&out_path);
+
+        if path.is_file() {
+            fs::remove_file(path).unwrap();
+        } else {
+            failed = true;
+        }
+    }
+
+    if failed {
+        Err(Box::new(Failure {}))
+    } else {
+        Ok(())
+    }
 }
