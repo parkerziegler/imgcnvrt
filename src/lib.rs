@@ -26,7 +26,7 @@ impl Config {
         let output_extension = match args.next() {
             Some(ext) => {
                 match &ext[..] {
-                    ".jpg" | ".jpeg" | ".png" | ".gif" | ".bmp" | ".ico" | ".tiff" | ".webp" | ".avif" | ".pnm" | ".dds" | ".tgf" | ".exr" | ".ff" => ext,
+                    ".jpg" | ".jpeg" | ".png" | ".gif" | ".bmp" | ".ico" | ".tiff" | ".webp" | ".avif" | ".pnm" | ".dds" | ".tga" | ".exr" | ".ff" => ext,
                     _ => return Err("Unsupported file extension.")
                     
                 }

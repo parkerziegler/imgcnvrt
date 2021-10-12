@@ -86,7 +86,7 @@ fn it_errors_on_unsupported_extensions() -> Result<(), Box<dyn std::error::Error
 
 #[test]
 fn it_decodes_png_and_encodes_supported_image_formats() -> Result<(), Box<dyn std::error::Error>> {
-    let supported_img_formats = vec![".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".pnm", ".ff"];
+    let supported_img_formats = vec![".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".pnm", ".tga", ".ff"];
 
     let mut failed = false;
     
