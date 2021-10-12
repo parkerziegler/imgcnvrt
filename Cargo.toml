@@ -1,6 +1,6 @@
 [package]
 name = "imgcnvrt"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2018"
 authors = ["Parker Ziegler <peziegler@berkeley.edu>"]
 documentation = "https://github.com/parkerziegler/imgcnvrt"
