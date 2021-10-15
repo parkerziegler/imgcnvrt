@@ -1,5 +1,6 @@
 use assert_cmd::prelude::*; // Add methods on commands
 use predicates::prelude::*;
+use std::path::PathBuf;
 // Used for writing assertions
 use std::process::Command; // Run programs
 use std::path::Path;
@@ -18,18 +19,23 @@ impl fmt::Display for Failure {
 
 impl Error for Failure {}
 
+fn normalize_file_path(folder: &str, img: &str) -> PathBuf {
+    Path::new(folder).join(img)
+}
+
 #[test]
 fn it_converts_files() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("imgcnvrt")?;
 
-    cmd.arg("tests/fractal.png").arg(".jpg");
+    let input_path = normalize_file_path("tests", "fractal.png");
+    let output_path = normalize_file_path("tests", "fractal.jpg");
+
+    cmd.arg(input_path.as_os_str()).arg(".jpg");
     cmd.assert()
         .success();
 
-    let path = Path::new("tests/fractal.jpg");
-
-    if path.is_file() {
-        fs::remove_file(path).unwrap();
+    if output_path.is_file() {
+        fs::remove_file(output_path).unwrap();
 
         Ok(())
     } else {
@@ -52,7 +58,9 @@ fn it_errors_if_no_file_specified() -> Result<(), Box<dyn std::error::Error>> {
 fn it_errors_on_file_not_found() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("imgcnvrt")?;
 
-    cmd.arg("tests/test.jpg").arg(".png");
+    let input_path = normalize_file_path("tests", "test.jpg");
+
+    cmd.arg(input_path.as_os_str()).arg(".png");
     cmd.assert()
         .failure()
         .stderr(predicate::str::contains("The provided path does not pertain to a file on disk."));
@@ -64,7 +72,9 @@ fn it_errors_on_file_not_found() -> Result<(), Box<dyn std::error::Error>> {
 fn it_errors_if_no_output_extension_specified() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("imgcnvrt")?;
 
-    cmd.arg("tests/fractal.png");
+    let input_path = normalize_file_path("tests", "fractal.png");
+
+    cmd.arg(input_path.as_os_str());
     cmd.assert()
         .failure()
         .stderr(predicate::str::contains("No output extension specified."));
@@ -76,7 +86,9 @@ fn it_errors_if_no_output_extension_specified() -> Result<(), Box<dyn std::error
 fn it_errors_on_unsupported_extensions() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("imgcnvrt")?;
 
-    cmd.arg("tests/fractal.png").arg(".mp3");
+    let input_path = normalize_file_path("tests", "fractal.png");
+
+    cmd.arg(input_path.as_os_str()).arg(".mp3");
     cmd.assert()
         .failure()
         .stderr(predicate::str::contains("Unsupported file extension."));
@@ -93,15 +105,16 @@ fn it_decodes_png_and_encodes_supported_image_formats() -> Result<(), Box<dyn st
     for img_format in supported_img_formats {
         let mut cmd = Command::cargo_bin("imgcnvrt")?;
 
-        cmd.arg("tests/fractal.png").arg(img_format);
+        let input_path = normalize_file_path("tests", "fractal.png");
+
+        cmd.arg(input_path.as_os_str()).arg(img_format);
         cmd.assert()
             .success();
 
-        let out_path = format!("tests/fractal{}", &img_format);
-        let path = Path::new(&out_path);
+        let output_path = normalize_file_path("tests", &format!("fractal{}", &img_format));
 
-        if path.is_file() {
-            fs::remove_file(path).unwrap();
+        if output_path.is_file() {
+            fs::remove_file(output_path).unwrap();
         } else {
             failed = true;
         }

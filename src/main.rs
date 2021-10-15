@@ -24,8 +24,10 @@ fn main() {
 
     // Construct the output file path.
     let out_file_path = match (in_path.parent(), in_path.file_stem()) {
-        (Some(dir), Some(file_stem)) => 
-            format!("{}/{}{}", dir.to_str().unwrap_or_default(), file_stem.to_str().unwrap_or_default(), &args.output_extension),
+        (Some(dir), Some(file_stem)) => {
+            let filename_with_ext = format!("{}{}", file_stem.to_str().unwrap_or_default(), &args.output_extension);
+            dir.join(Path::new(&filename_with_ext))
+        }
         _ => {
             eprintln!("Could not decode file location.");
             process::exit(1);
